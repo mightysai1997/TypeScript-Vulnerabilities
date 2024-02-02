@@ -1,15 +1,12 @@
-var express = require('express')
+let express = require('express');
+let app = express()
 
-var app = express()
-
-function improperRestrictionOfFramesNoncompliant() {
-
-    app.use((req, res) => {
-
-        // Noncompliant: it has broken `X-Frame-Options` header.
-
-        res.setHeader("X-Frame-Options", req.query)
-
-    })
-
-}
+app.put('/todos/:id', (req, res) => {
+    let id = req.params.id;
+    let items = req.session.todos[id];
+    if (!items) {
+        items = req.session.todos[id] = {};
+    }
+    items[req.query.name] = req.query.text;
+    res.end(200);
+});
