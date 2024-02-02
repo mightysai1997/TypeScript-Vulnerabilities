@@ -1,9 +1,25 @@
-function mergeObjects(obj1: any, obj2: any) {
-    return { ...obj1, ...obj2 }; // Vulnerable
+// This function takes user input and merges it with an object
+function mergeUserData(obj: any, userData: any) {
+  // **Vulnerable:** Directly merges user data without validation
+  Object.assign(obj, userData);
 }
 
-const userInput = { __proto__: { isAdmin: true } };
-const userData = { name: 'Alice' };
-const mergedData = mergeObjects(userData, userInput);
+// Example usage
+const user = {
+  name: "John",
+};
 
-console.log(mergedData.isAdmin); // true (potentially compromised)
+const userInput = {
+  isAdmin: true, // Malicious user input
+  __proto__: {
+    toString() {
+      // Attacker code to steal cookies
+      return document.cookie;
+    },
+  },
+};
+
+mergeUserData(user, userInput);
+
+// Now, calling user.toString() will execute the attacker's code!
+console.log(user.toString()); // Steals cookies if executed
