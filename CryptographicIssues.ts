@@ -1,25 +1,22 @@
-// This function takes user input and merges it with an object
-function mergeUserData(obj: any, userData: any) {
-  // **Vulnerable:** Directly merges user data without validation
-  Object.assign(obj, userData);
+import { of, interval } from 'rxjs';
+import { switchMap, debounceTime } from 'rxjs/operators';
+
+function login(username: string, password: string) {
+  return of(true).pipe(
+    // Simulate server call with delay based on username validity
+    debounceTime(username === 'valid_user' ? 500 : 2000),
+    switchMap(() => {
+      if (password === 'correct_password') {
+        return of('Login successful!');
+      } else {
+        return of('Invalid password.');
+      }
+    })
+  );
 }
 
-// Example usage
-const user = {
-  name: "John",
-};
+// Usage
+login('attacker_username', 'invalid_password')
+  .subscribe((message) => console.log(message));
 
-const userInput = {
-  isAdmin: true, // Malicious user input
-  __proto__: {
-    toString() {
-      // Attacker code to steal cookies
-      return document.cookie;
-    },
-  },
-};
-
-mergeUserData(user, userInput);
-
-// Now, calling user.toString() will execute the attacker's code!
-console.log(user.toString()); // Steals cookies if executed
+// Attacker can analyze response times to guess valid usernames.
