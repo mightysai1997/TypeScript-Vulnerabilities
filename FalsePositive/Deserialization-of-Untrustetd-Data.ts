@@ -5,7 +5,6 @@ In this example, the code deserializes user data from a JSON string. The deseria
 The false positive might occur if a static code analysis tool flags this as a potential vulnerability without understanding the broader context of the application.
 */
 
-
 // Suppose this class represents some serialized data structure
 class User {
   constructor(public username: string, public isAdmin: boolean) {}
