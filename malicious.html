@@ -1,0 +1,28 @@
+<!-- malicious.html (attacker's page) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malicious Page</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>This is a Fake Login Page</h1>
+  <button id="fakeLoginButton">Click Me!</button>
+
+  <script>
+    document.getElementById('fakeLoginButton')?.addEventListener('click', () => {
+      alert('You've been tricked into clicking the fake login button!');
+    });
+  </script>
+</body>
+</html>
