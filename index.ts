@@ -1,19 +1,11 @@
-function cryptographicKeyGeneratorNoncompliant()
-{
-    var crypto = require("crypto")
-    var object = {
-        // Noncompliant: 'modulusLength' is less than 2048 bits.
-        modulusLength: 1024,
-        publicKeyEncoding: {
-            type: 'spki',
-            format: 'pem'
-        },
-        privateKeyEncoding: {
-            type: 'pkcs8',
-            format: 'pem',
-            cipher: 'aes-256-cbc',
-            passphrase: 'top secret'
+var express = require('express')
+var app = express()
+
+function timingAttackNoncompliant() {
+    app.get('/user/login', function (req, res) {
+        // Noncompliant: '===' operator is used with sensitive data field.
+        if(password === "myPass") {
+            logIn()
         }
-    }
-    var { publicKey, privateKey} = crypto.generateKeyPairSync('rsa',object)
+    })
 }
