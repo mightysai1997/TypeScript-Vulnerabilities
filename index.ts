@@ -1,11 +1,5 @@
-var express = require('express')
-var app = express()
-
-function timingAttackNoncompliant() {
-    app.get('/user/login', function (req, res) {
-        // Noncompliant: '===' operator is used with sensitive data field.
-        if(password === "myPass") {
-            logIn()
-        }
-    })
+var fs = require('fs')
+function looseFilePermissionsNoncompliant() {
+    // Noncompliant: read permissions assigned to others.
+    fs.promises.chmod("/path", 0o774).then(r => {})
 }
