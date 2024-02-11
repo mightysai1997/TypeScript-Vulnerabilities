@@ -1,5 +1,14 @@
-var fs = require('fs')
-function looseFilePermissionsNoncompliant() {
-    // Noncompliant: read permissions assigned to others.
-    fs.promises.chmod("/path", 0o774).then(r => {})
-}
+var express = require('express'),
+    app = express();
+
+app.get('/', function (req, res) {
+    // ruleid: x-frame-options-misconfiguration
+    res.set('X-Frame-Options', req.query.opts)
+    res.send('ok')
+})
+
+app.get('/', function (req, res) {
+    // ok: x-frame-options-misconfiguration
+    res.set('X-Frame-Options', 'SAMEORIGIN')
+    res.send('ok')
+})
